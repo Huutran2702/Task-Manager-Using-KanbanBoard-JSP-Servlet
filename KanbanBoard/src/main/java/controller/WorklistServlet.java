@@ -59,12 +59,13 @@ public class WorklistServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        int id = (int) session.getAttribute("wspID");
+        HttpSession session1 = request.getSession();
+        Integer id = (Integer) session1.getAttribute("wspID");
         if (!newWorklistName.equals("")) {
             worklistDAO.insertWorkList(new WorkList(newWorklistName,id));
         }
-        List<Workspace> workspaces = (List<Workspace>) session.getAttribute("workspaces");
-        List<Workspace> favoriteWorkspace = (List<Workspace>) session.getAttribute("favoriteWorkspace");
+        List<Workspace> workspaces = workspaceDAO.selectAllWorkspaceByEmail(user.getEmail());
+        List<Workspace> favoriteWorkspace = workspaceDAO.selectAllFavoriteWorkspaceByEmail(user.getEmail());
         if (workspaces.size()==0) {
             workspaceDAO.insertWorkspace(new Workspace( "Không gian chính of "+user.getName()));
             workspaceDAO.shareWorkspace(user.getId(), workspaceDAO.selectWorkspaceByName("Không gian chính of "+user.getName()).getId());
@@ -76,8 +77,6 @@ public class WorklistServlet extends HttpServlet {
         ) {
             works.put(worklist.getId(),workDAO.selectWorkByWorkListID(worklist.getId()));
         }
-
-
         request.setAttribute("account",user.getName());
         request.setAttribute("favoriteWorkspace",favoriteWorkspace );
         request.setAttribute("workspaces",workspaces );

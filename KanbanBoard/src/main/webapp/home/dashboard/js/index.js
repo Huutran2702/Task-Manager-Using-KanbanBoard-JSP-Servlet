@@ -16,3 +16,16 @@ function addWorklist() {
 </form>
     `
 }
+function editWorkspace(name,id) {
+    document.getElementById("wspName_edit").value = name;
+    document.getElementById("id_thisWorkspace").value = id;
+}
+function deleteWorkspace(id) {
+    document.getElementById("delete_wspID").value = id;
+}
+function shareWorkspaceToUser(id) {
+    document.getElementById("id_workspace_to_share").value = id;
+}
+    let x = document.getElementById("alert");
+    setTimeout(function(){ x.classList.add("displayNone")}, 6000);
+

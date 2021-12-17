@@ -148,17 +148,16 @@ public class UserServlet extends HttpServlet {
                                 workspaceDAO.shareWorkspace(user.getId(), workspaceDAO.selectWorkspaceByName("Không gian chính of "+user.getName()).getId());
                                 workspaces = workspaceDAO.selectAllWorkspaceByEmail(user.getEmail());
                             }
-                            List<WorkList> worklists = worklistDAO.selectWorkListByWorkspaceID(workspaces.get(0).getId());
+                            List<WorkList> worklists = worklistDAO.selectWorkListByWorkspaceID(workspaces.get(1).getId());
                             Map<Integer, List<Work>> works = new HashMap<>();
                             for (WorkList worklist: worklists
                             ) {
                                 works.put(worklist.getId(),workDAO.selectWorkByWorkListID(worklist.getId()));
                             }
                             session.setAttribute("account",user);
-                            session.setAttribute("favoriteWorkspace",favoriteWorkspace);
-                            session.setAttribute("workspaces",workspaces);
                             HttpSession id = request.getSession(true);
-                            id.setAttribute("wspID",workspaces.get(0).getId());
+                            id.setAttribute("wspID",workspaces.get(1).getId());
+                            request.setAttribute("thisWsp",workspaces.get(0));
                             request.setAttribute("account",user.getName());
                             request.setAttribute("favoriteWorkspace",favoriteWorkspace );
                             request.setAttribute("workspaces",workspaces );

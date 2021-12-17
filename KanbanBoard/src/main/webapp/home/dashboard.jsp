@@ -54,6 +54,18 @@
         background-color: rgb(226,228,230);
         border-radius: 6px;
         }
+        .displayNone {
+            display: none;
+        }
+        #alert {
+            position: absolute;
+            top: 41px;
+            margin-left: 500px;
+            width: 200px;
+            text-align: center;
+            font-size: 13px;
+            height: 60px;
+        }
     </style>
 </head>
 <body>
@@ -128,13 +140,19 @@
             </li>
             <li class="nav__menu-item"><a>About</a>
                 <ul class="nav__submenu">
-                    <li class="nav__submenu-item"> <a data-bs-toggle="modal" data-bs-target="#editWorkspace">Edit Workspace</a></li>
-                    <li class="nav__submenu-item"> <a>Add Workspace</a></li>
-                    <li class="nav__submenu-item"> <a>Share Workspace</a></li>
+                    <li class="nav__submenu-item"> <a data-bs-toggle="modal" data-bs-target="#editWorkspace" onclick="editWorkspace('${thisWsp.name}',${thisWsp.id})" >Edit Workspace</a></li>
+                    <li class="nav__submenu-item"> <a data-bs-toggle="modal" data-bs-target="#confirm-delete" onclick="deleteWorkspace(${thisWsp.id})">Delete Workspace</a></li>
+                    <li class="nav__submenu-item"> <a data-bs-toggle="modal" data-bs-target="#addWorkspace">Add Workspace</a></li>
+                    <li class="nav__submenu-item"> <a data-bs-toggle="modal" data-bs-target="#shareWorkspace" onclick="shareWorkspaceToUser(${thisWsp.id})">Share Workspace</a></li>
                 </ul>
             </li>
             <li class="nav__menu-item"><a>Blog</a></li>
             <li class="nav__menu-item"><a>Contact</a></li>
+             <c:if test="${alert != null}">
+                <div class="alert alert-danger" role="alert" id="alert" >
+                    <c:out value="${alert}"/>
+                </div>
+            </c:if>
         </ul>
     </div>
 
@@ -161,19 +179,20 @@
                 <button class="add-card-btn btn">Add a card</button>
             </div>
         </div>
-
     </c:forEach>
 <div id="btn_add_new_worklist" >
     <button class="add-list-btn btn" onclick="addWorklist()" >Add a list</button>
 </div>
 
 
+
+
 </section>
 <!-- End of lists container -->
-<%@include file="dashboard/modal/addWorklistModal.jsp" %>
-<%@include file="dashboard/modal/addWorkModal.jsp" %>
+<%@include file="dashboard/modal/addWorkspace.jsp" %>
+<%@include file="dashboard/modal/deleteWorkspace.jsp" %>
 <%@include file="dashboard/modal/editWorkspaceModal.jsp" %>
-
+<%@include file="dashboard/modal/shareWorkspace.jsp" %>
 
 <script src="${pageContext.request.contextPath}/home/dashboard/js/dropdown.js"></script>
 <script src="${pageContext.request.contextPath}/home/dashboard/js/index.js"></script>
